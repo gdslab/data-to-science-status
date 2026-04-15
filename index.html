@@ -6,21 +6,22 @@
   <title>D2S — Maintenance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0a0e1a;
-      --surface: #111827;
-      --border: #1e2d45;
-      --accent: #3b82f6;
-      --accent-dim: #1d4ed8;
-      --accent-glow: rgba(59, 130, 246, 0.15);
-      --text-primary: #e2e8f0;
-      --text-secondary: #64748b;
-      --text-muted: #334155;
+      --bg: #f5f5f5;
+      --surface: #ffffff;
+      --border: #e0e0e0;
+      --accent: #3D5A80;
+      --accent-dark: #2c4260;
+      --accent-light: #eef1f5;
+      --text-primary: #212121;
+      --text-secondary: #616161;
+      --text-muted: #9e9e9e;
       --warning: #f59e0b;
-      --warning-dim: rgba(245, 158, 11, 0.1);
-      --grid: rgba(30, 45, 69, 0.4);
+      --warning-bg: #fffbeb;
+      --warning-border: #fde68a;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
     }
 
     *, *::before, *::after {
@@ -36,134 +37,86 @@
     body {
       background-color: var(--bg);
       color: var(--text-primary);
-      font-family: 'Syne', sans-serif;
+      font-family: 'Roboto', sans-serif;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
       min-height: 100vh;
-      overflow: hidden;
-      position: relative;
     }
 
-    /* Grid background */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(var(--grid) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Glow orb */
-    body::after {
-      content: '';
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-      animation: pulse 6s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-    }
-
-    .container {
-      position: relative;
-      z-index: 1;
-      width: min(680px, 90vw);
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      animation: fadeUp 0.8s ease both;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Header */
-    .header {
+    /* Nav bar */
+    .navbar {
+      background: var(--accent);
+      padding: 0 2rem;
+      height: 60px;
       display: flex;
       align-items: center;
-      gap: 1rem;
-      animation: fadeUp 0.8s 0.1s ease both;
-    }
-
-    .logo-mark {
-      width: 40px;
-      height: 40px;
-      border: 1.5px solid var(--accent);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 16px var(--accent-glow), inset 0 0 12px var(--accent-glow);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
       flex-shrink: 0;
     }
 
-    .logo-mark svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-
-    .logo-title {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      font-family: 'DM Mono', monospace;
-    }
-
-    .logo-name {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      letter-spacing: 0.02em;
-    }
-
-    /* Status badge */
-    .status-badge {
-      margin-left: auto;
+    .navbar-brand {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      background: var(--warning-dim);
-      border: 1px solid rgba(245, 158, 11, 0.25);
-      border-radius: 999px;
-      padding: 0.35rem 0.85rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--warning);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    /* Inline SVG recreation of the D2S globe+D logo in white */
+    .navbar-logo {
+      height: 36px;
+      width: auto;
+    }
+
+    .navbar-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.95);
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+
+    /* Main content */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+    }
+
+    .container {
+      width: min(580px, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Status banner */
+    .status-banner {
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      border-left: 4px solid var(--warning);
+      border-radius: 4px;
+      padding: 0.875rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+      color: #92400e;
     }
 
     .status-dot {
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: var(--warning);
+      flex-shrink: 0;
       animation: blink 2s ease-in-out infinite;
     }
 
@@ -172,171 +125,217 @@
       50% { opacity: 0.3; }
     }
 
-    /* Main card */
+    /* Card */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      animation: fadeUp 0.8s 0.2s ease both;
-      position: relative;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
       overflow: hidden;
     }
 
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      opacity: 0.5;
+    .card-header {
+      background: var(--accent-light);
+      border-bottom: 1px solid #c8d3de;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
-    .headline {
-      font-size: clamp(1.6rem, 4vw, 2.2rem);
-      font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
+    .card-header-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
-    .headline span {
-      color: var(--accent);
+    .card-header-text h1 {
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: var(--accent-dark);
+      letter-spacing: 0.01em;
+    }
+
+    .card-header-text p {
+      font-size: 0.85rem;
+      color: var(--accent-dark);
+      opacity: 0.75;
+      margin-top: 2px;
+    }
+
+    .card-body {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
     }
 
     .body-text {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.85rem;
-      line-height: 1.75;
+      font-size: 0.9375rem;
+      line-height: 1.7;
       color: var(--text-secondary);
-      font-weight: 300;
     }
 
-    /* Divider */
-    .divider {
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* Info rows */
-    .info-grid {
+    /* Info table */
+    .info-table {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
     }
 
     .info-row {
       display: flex;
-      align-items: baseline;
-      gap: 1rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
     }
 
     .info-label {
-      color: var(--text-muted);
+      background: #fafafa;
+      border-right: 1px solid var(--border);
+      padding: 0.65rem 1rem;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      min-width: 100px;
+      display: flex;
+      align-items: center;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-size: 0.68rem;
-      min-width: 80px;
-      flex-shrink: 0;
     }
 
     .info-value {
-      color: var(--text-secondary);
+      padding: 0.65rem 1rem;
+      font-size: 0.875rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      font-family: 'Roboto Mono', monospace;
     }
 
     .info-value a {
       color: var(--accent);
       text-decoration: none;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.2s;
     }
 
     .info-value a:hover {
-      border-color: var(--accent);
+      text-decoration: underline;
     }
 
     /* Footer */
     .footer {
-      text-align: center;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .footer-left {
+      font-size: 0.78rem;
       color: var(--text-muted);
-      letter-spacing: 0.05em;
-      animation: fadeUp 0.8s 0.3s ease both;
     }
 
-    .footer a {
-      color: var(--text-secondary);
+    .footer-right {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .footer-right a {
+      font-size: 0.78rem;
+      color: var(--accent);
       text-decoration: none;
-      transition: color 0.2s;
     }
 
-    .footer a:hover {
-      color: var(--text-primary);
+    .footer-right a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div class="container">
 
-    <div class="header">
-      <div class="logo-mark">
-        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 10C3 6.13 6.13 3 10 3s7 3.13 7 7-3.13 7-7 7-7-3.13-7-7z" stroke="#3b82f6" stroke-width="1.5"/>
-          <path d="M7 10h6M10 7v6" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="logo-text">
-        <span class="logo-title">Geospatial Data Science Lab</span>
-        <span class="logo-name">Data to Science</span>
-      </div>
-      <div class="status-badge">
+  <nav class="navbar">
+    <a class="navbar-brand" href="https://d2s.org">
+      <!-- D2S logo: globe + D mark recreated in white SVG -->
+      <img src="logo.png" alt="Data to Science" class="navbar-logo" />
+    </a>
+  </nav>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="status-banner">
         <div class="status-dot"></div>
-        Maintenance
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="headline">We'll be back<br /><span>shortly.</span></div>
-
-      <div class="body-text">
-        D2S is currently undergoing unplanned maintenance.<br />
-        We're working to restore service as quickly as possible<br />
-        and apologize for the inconvenience.
+        <span>We are currently experiencing an unplanned service disruption and are working to restore access.</span>
       </div>
 
-      <div class="divider"></div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="card-header-text">
+            <h1>Unplanned Maintenance</h1>
+            <p>ps2.d2s.org is temporarily unavailable</p>
+          </div>
+        </div>
 
-      <div class="info-grid">
-        <div class="info-row">
-          <span class="info-label">Status</span>
-          <span class="info-value">Service temporarily unavailable</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Started</span>
-          <span class="info-value">April 14, 2026 — ~19:00 ET</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Contact</span>
-          <span class="info-value">
-            <a href="https://github.com/gdslab/data-to-science" target="_blank" rel="noopener">github.com/gdslab/data-to-science</a>
-          </span>
+        <div class="card-body">
+          <p class="body-text">
+            The D2S platform is currently offline due to an infrastructure issue.
+            Our team has been notified and is working to restore service as quickly as possible.
+            We apologize for the inconvenience.
+          </p>
+
+          <div class="info-table">
+            <div class="info-row">
+              <span class="info-label">Status</span>
+              <span class="info-value">Service unavailable</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Since</span>
+              <span class="info-value">2026-04-14 ~19:00 ET</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Affects</span>
+              <span class="info-value">ps2.d2s.org — all services</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">GitHub</span>
+              <span class="info-value">
+                <a href="https://github.com/gdslab/data-to-science" target="_blank" rel="noopener">gdslab/data-to-science</a>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="footer">
-      &copy; 2026 Geospatial Data Science Lab &mdash; Purdue University &mdash;
-      <a href="https://github.com/gdslab/data-to-science-status" target="_blank" rel="noopener">status repo</a>
     </div>
+  </main>
 
-  </div>
+  <footer class="footer">
+    <span class="footer-left">© 2026 Geospatial Data Science Lab — Purdue University</span>
+    <div class="footer-right">
+      <a href="https://d2s.org" target="_blank" rel="noopener">d2s.org</a>
+      <a href="https://github.com/gdslab/data-to-science-status" target="_blank" rel="noopener">Status repo</a>
+      <a href="https://gdslab.github.io/data-to-science/" target="_blank" rel="noopener">Docs</a>
+    </div>
+  </footer>
+
 </body>
 </html>

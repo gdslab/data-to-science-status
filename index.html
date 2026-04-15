@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D2S — Maintenance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --surface: #111827;
+      --border: #1e2d45;
+      --accent: #3b82f6;
+      --accent-dim: #1d4ed8;
+      --accent-glow: rgba(59, 130, 246, 0.15);
+      --text-primary: #e2e8f0;
+      --text-secondary: #64748b;
+      --text-muted: #334155;
+      --warning: #f59e0b;
+      --warning-dim: rgba(245, 158, 11, 0.1);
+      --grid: rgba(30, 45, 69, 0.4);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Syne', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Glow orb */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      animation: pulse 6s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: min(680px, 90vw);
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      border: 1.5px solid var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px var(--accent-glow), inset 0 0 12px var(--accent-glow);
+      flex-shrink: 0;
+    }
+
+    .logo-mark svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .logo-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .logo-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: 0.02em;
+    }
+
+    /* Status badge */
+    .status-badge {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--warning-dim);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 999px;
+      padding: 0.35rem 0.85rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--warning);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--warning);
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Main card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      animation: fadeUp 0.8s 0.2s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.5;
+    }
+
+    .headline {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .headline span {
+      color: var(--accent);
+    }
+
+    .body-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Info rows */
+    .info-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+    }
+
+    .info-label {
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.68rem;
+      min-width: 80px;
+      flex-shrink: 0;
+    }
+
+    .info-value {
+      color: var(--text-secondary);
+    }
+
+    .info-value a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .info-value a:hover {
+      border-color: var(--accent);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer a:hover {
+      color: var(--text-primary);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <div class="logo-mark">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 10C3 6.13 6.13 3 10 3s7 3.13 7 7-3.13 7-7 7-7-3.13-7-7z" stroke="#3b82f6" stroke-width="1.5"/>
+          <path d="M7 10h6M10 7v6" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <span class="logo-title">Geospatial Data Science Lab</span>
+        <span class="logo-name">Data to Science</span>
+      </div>
+      <div class="status-badge">
+        <div class="status-dot"></div>
+        Maintenance
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="headline">We'll be back<br /><span>shortly.</span></div>
+
+      <div class="body-text">
+        D2S is currently undergoing unplanned maintenance.<br />
+        We're working to restore service as quickly as possible<br />
+        and apologize for the inconvenience.
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="info-grid">
+        <div class="info-row">
+          <span class="info-label">Status</span>
+          <span class="info-value">Service temporarily unavailable</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Started</span>
+          <span class="info-value">April 14, 2026 — ~19:00 ET</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Contact</span>
+          <span class="info-value">
+            <a href="https://github.com/gdslab/data-to-science" target="_blank" rel="noopener">github.com/gdslab/data-to-science</a>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      &copy; 2026 Geospatial Data Science Lab &mdash; Purdue University &mdash;
+      <a href="https://github.com/gdslab/data-to-science-status" target="_blank" rel="noopener">status repo</a>
+    </div>
+
+  </div>
+</body>
+</html>
